@@ -1,0 +1,76 @@
+Your challenge is to build an API for a social network web application where users can share their thoughts, react to friends’ thoughts, and create a friend list. You’ll use Express.js for routing, a MongoDB database, and the Mongoose ODM. In addition to using the Express.jsLinks to an external site. and MongooseLinks to an external site. packages, you may also optionally use a JavaScript date library of your choice or the native JavaScript Date object to format timestamps.
+
+Ensure that the mongoose package is using version 6+. The latest version of mongoose (version 7+) introduces potential breaking changes to activities. All activities have version 6.9.2 in their respective package.json files, but should you install mongoose, please use npm i mongoose@6.9.2.
+
+Because this application won’t be deployed, you’ll also need to create a walkthrough video that demonstrates its functionality and all of the following acceptance criteria being met. You’ll need to submit a link to the video and add it to the README of your project.
+
+User Story
+AS A social media startup
+I WANT an API for my social network that uses a NoSQL database
+SO THAT my website can handle large amounts of unstructured data
+
+
+Acceptance Criteria
+GIVEN a social network API
+WHEN I enter the command to invoke the application
+THEN my server is started and the Mongoose models are synced to the MongoDB database
+
+
+WHEN I open API GET routes in Insomnia for users and thoughts
+THEN the data for each of these routes is displayed in a formatted JSON
+
+
+WHEN I test API POST, PUT, and DELETE routes in Insomnia
+THEN I am able to successfully create, update, and delete users and thoughts in my database
+
+
+WHEN I test API POST and DELETE routes in Insomnia
+THEN I am able to successfully create and delete reactions to thoughts and add and remove friends to a user’s friend list
+
+
+
+
+technicallyyyy, i think all thats needed to create a feed is to have a seperation of public and private posts 
+
+- users can share their thoughts (blog posts)
+
+    - create a post 
+    - drafts: posts that have not saved yet 
+        - can come back to 
+        - 
+
+- can react to posts: 
+    - comments, 
+        - post side: 
+            - library of incoming comments 
+            - delete comments 
+            -  
+        - user-side 
+            - can leave a comment 
+            - can edit a comment
+            - can 
+
+        from profile view: 
+        posts that you comment 
+
+    - likes
+        like count 
+        dislike count 
+        ability to be liked only once per account 
+        ability to be disliked only once per account 
+        ability to unlike or dislike upon every click 
+
+        from profile view: 
+        posts that you like* 
+
+
+
+- friends list 
+    - add a friend 
+    - accept a friend 
+    - view friends 
+    - friend request 
+    - delete a friend 
+    - search a friend 
+
+
