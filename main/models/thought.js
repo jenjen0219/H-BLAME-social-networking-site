@@ -1,4 +1,7 @@
 const { Schema, model } = require('mongoose');
+//in order to align with the correct continuity of the code, the reactionSchema needs to be defined before the thoughtSchema
+const reactionSchema = require('./reaction');
+
 
 const thoughtSchema = new Schema(
     {
@@ -25,12 +28,15 @@ const thoughtSchema = new Schema(
         //we need to include virtual properties when converting data to JSON 
         toJSON: {
             virtuals: true,
+            //the purpose of getters is to format the timestamp on query
+            getters: true,
         },
     }
 );
 
+//so this is also considered a subdocument because it is nested within the thoughtSchema and it is also a virtual property because it is not stored in the database
 //defining a virtual property of the thought schema to calculate the amount of reactions a thought has
-userSchema.virtual('reactionCount').get(function () {
+thoughtSchema.virtual('reactionCount').get(function () {
     return this.reaction.length;
 });
 
@@ -38,4 +44,4 @@ userSchema.virtual('reactionCount').get(function () {
 const Thought = model('Thought', thoughtSchema);
 
 //now we export the User model so that we can use it in other files
-module.exports = Thought    ;
+module.exports = Thought;
