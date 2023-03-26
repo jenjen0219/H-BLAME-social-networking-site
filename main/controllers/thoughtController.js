@@ -1,5 +1,5 @@
 
-//this is what includes the user and thought models
+//this is what includes the thought and thought models
 const { Thought, Thought } = require('../models');
 
 
@@ -10,7 +10,7 @@ module.exports = {
             .then((thoughts) => res.json(thoughts))
             .catch((err) => res.status(500).json(err));
     },
-    // Get a single user
+    // Get a single thought
     getSingleThought(req, res) {
         Thought.findOne({ _id: req.params.thoughtId })
             .select('-__v')
@@ -21,27 +21,23 @@ module.exports = {
             )
             .catch((err) => res.status(500).json(err));
     },
-    // create a new user
-    createUser(req, res) {
-        User.create(req.body)
-            .then((user) => res.json(user))
+    // create a new thought
+    createThought(req, res) {
+        Thought.create(req.body)
+            .then((thought) => res.json(thought))
             .catch((err) => res.status(500).json(err));
     },
-    // Update a user
-    updateUser(req, res) {
-            User.findOneAndUpdate(req, res) 
-            .then((user) => res.json(user))
+    // Update a thought
+    updateThought(req, res) {
+            Thought.findOneAndUpdate(req, res) 
+            .then((thought) => res.json(thought))
             .catch((err) => res.status(500).json(err));
     },
-    // Delete a user and associated thoughts
-    deleteUser(req, res) {
-        User.findOneAndDelete({ _id: req.params.userId })
-            .then((user) =>
-                !user
-                    ? res.status(404).json({ message: 'No user with that ID' })
-                    : Thought.deleteMany({ _id: { $in: user.Thought } })
-            )
-            .then(() => res.json({ message: 'User and associated apps deleted!' }))
+    // Delete a single thought 
+    deleteSingleThought(req, res) {
+        Thought.findOneAndDelete({ _id: req.params.thoughtId })
+            .then((thought) => res.json(thought))
             .catch((err) => res.status(500).json(err));
     },
+
 };
