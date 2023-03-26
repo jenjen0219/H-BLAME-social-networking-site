@@ -3,15 +3,7 @@ const { Schema, model } = require('mongoose');
 const userSchema = new Schema(
   {
     //not mentioned in the parameters given in the homework but isn't is insinuated that an ObjectId is required for the user?
-    userId: {
-      //giving our user type an ObjectId to help with matching in the future
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      unique: true,
-      trim: true,
-      //we also need to set the default value to be an ObjectId 
-      default: mongoose.Types.ObjectId
-    },
+    //oh okay so mongoose actually has a built in method for creating an ObjectId so we don't need to include a userId property
     username: {
       type: String,
       required: true,
