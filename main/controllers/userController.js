@@ -28,7 +28,7 @@ module.exports = {
     },
     // Update a user
     updateUser(req, res) {
-            User.findOneAndUpdate(req, res) 
+        User.findOneAndUpdate(req, res)
             .then((user) => res.json(user))
             .catch((err) => res.status(500).json(err));
     },
@@ -43,4 +43,40 @@ module.exports = {
             .then(() => res.json({ message: 'User and associated apps deleted!' }))
             .catch((err) => res.status(500).json(err));
     },
+
+    // Add a friend
+    addFriend(req, res) {
+
+        User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $addToSet: { friends: req, res } },
+            { new: true, runValidators: true }
+
+        )
+            .then((user) => {
+                if (!user) {
+                    res.status(404).json({ message: 'No user with that ID' });
+                }
+            })
+            .catch((err) => res.status(500).json(err));
+    },
+
+    // Remove a friend
+    removeFriend(req, res) {
+        User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $pull: { friends: req, res } },
+            { new: true }
+        )
+            .then((user) => {
+                if (!user) {
+                    res.status(404).json({ message: 'No user with that ID' });
+                }
+            })
+            .catch((err) => res.status(500).json(err));
+    }
+
+
 };
+
+
