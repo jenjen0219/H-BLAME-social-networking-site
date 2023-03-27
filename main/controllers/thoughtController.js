@@ -59,11 +59,45 @@ module.exports = {
     },
 
     // Delete a single thought 
-    deleteSingleThought(req, res) {
+    deleteThought(req, res) {
         Thought.findOneAndDelete({ _id: req.params.thoughtId })
             .then((thought) => res.json(thought))
             .catch((err) => res.status(500).json(err));
     },
+
+    // Add a reaction to a thought
+    addReaction(req, res) {
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $addToSet: { reactions: req.body } },
+            { new: true, runValidators: true }
+        )
+            .then((thought) => {
+                if (!thought) {
+                    res.status(404).json({ message: 'No thought with that ID' });
+                }
+                res.json(thought);
+            }
+            )
+            .catch((err) => res.status(500).json(err));
+    },
+
+    // Delete a reaction from a thought
+    deleteReaction(req, res) {
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $pull: { reactions: { reactionId: req.params.reactionId } } },
+            { new: true }
+        )
+            .then((thought) => {
+                if (!thought) {
+                    res.status(404).json({ message: 'No thought with that ID' });
+                }
+                res.json(thought);
+            }
+            )
+            .catch((err) => res.status(500).json(err));
+    }
 
 };
 
