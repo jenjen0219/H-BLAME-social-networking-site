@@ -9,7 +9,7 @@ const thoughtSchema = new Schema(
             type: String,
             required: true,
             //now we add in the length parameters of 1-280 characters   
-            minlength: 1, 
+            minlength: 1,
             maxlength: 280
         },
         username: {

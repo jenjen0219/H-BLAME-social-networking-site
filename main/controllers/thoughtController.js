@@ -34,7 +34,7 @@ module.exports = {
                     { $push: { thoughts: thought._id } },
                     //this is passed onto the findOneAndUpdate method, which will return the updated document after the update has been applied
                     { new: true }
-                );
+                ).populate('thoughts');
             })
             .then((user) => {
                 if (!user) {

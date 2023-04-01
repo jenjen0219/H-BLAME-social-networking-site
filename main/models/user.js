@@ -43,13 +43,6 @@ const userSchema = new Schema(
   }
 );
 
-// //in accordance to monggose matching error validation, we need to create a custome validator for the email which is where we include the regex
-// const validator = function (email) {
-//   return /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/.test(email);
-// };
-
-// //this is where we apply the validator to the email property of the userSchema
-// userSchema.path('email').validate(validator, 'Invalid email');
 
 //defining a virtual property of the user schema to calculate the amount of friends a user has
 userSchema.virtual('friendCount').get(function () {
