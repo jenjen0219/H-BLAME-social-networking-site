@@ -2,6 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema(
   {
+    // _id 
     //not mentioned in the parameters given in the homework but isn't is insinuated that an ObjectId is required for the user?
     //oh okay so mongoose actually has a built in method for creating an ObjectId so we don't need to include a userId property
     username: {
@@ -14,12 +15,13 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
+      match:  [/.+@.+\..+/, 'Please enter a valid e-mail address'],
     },
     //this will be an array of the friends that the user has
     friends: [
       {
         //
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         //here we are referncing the already created user model that will contain the various ids of the friends that this user has 
         ref: 'User'
       }
@@ -27,7 +29,7 @@ const userSchema = new Schema(
     //this will give us an array of all the thoughts the user has made
     thoughts: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Thought'
       }
     ]
@@ -37,16 +39,17 @@ const userSchema = new Schema(
     toJSON: {
       virtuals: true,
     },
+    id: false
   }
 );
 
-//in accordance to monggose matching error validation, we need to create a custome validator for the email which is where we include the regex
-const validator = function (email) {
-  return /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/.test(email);
-};
+// //in accordance to monggose matching error validation, we need to create a custome validator for the email which is where we include the regex
+// const validator = function (email) {
+//   return /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/.test(email);
+// };
 
-//this is where we apply the validator to the email property of the userSchema
-userSchema.path('email').validate(validator, 'Invalid email');
+// //this is where we apply the validator to the email property of the userSchema
+// userSchema.path('email').validate(validator, 'Invalid email');
 
 //defining a virtual property of the user schema to calculate the amount of friends a user has
 userSchema.virtual('friendCount').get(function () {
@@ -58,3 +61,4 @@ const User = model('User', userSchema);
 
 //now we export the User model so that we can use it in other files
 module.exports = User;
+

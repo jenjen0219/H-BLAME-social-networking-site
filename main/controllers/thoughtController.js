@@ -51,7 +51,7 @@ module.exports = {
     updateThought(req, res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
-            req.body,
+            { $set: req.body },
             { new: true }
         )
             .then((thought) => res.json(thought))

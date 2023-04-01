@@ -9,7 +9,8 @@ const thoughtSchema = new Schema(
             type: String,
             required: true,
             //now we add in the length parameters of 1-280 characters   
-            length: [1, 280],
+            minlength: 1, 
+            maxlength: 280
         },
         username: {
             type: String,
@@ -19,7 +20,7 @@ const thoughtSchema = new Schema(
             type: Date,
             default: Date.now,
             //using a getter method to format the timestamp on query
-            get: (timeOfCreation) => dateFormat(timeOfCreation),
+            // get: (timeOfCreation) => dateFormat(timeOfCreation),
         },
         //array of nested documents created with subdocument reactionSchema
         reaction: [reactionSchema],

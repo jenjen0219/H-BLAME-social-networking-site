@@ -13,6 +13,8 @@ module.exports = {
     getSingleUser(req, res) {
         User.findOne({ _id: req.params.userId })
             .select('-__v')
+            .populate('friends')
+            .populate('thoughts')
             .then((user) =>
                 !user
                     ? res.status(404).json({ message: 'No user with that ID' })
@@ -28,7 +30,11 @@ module.exports = {
     },
     // Update a user
     updateUser(req, res) {
-        User.findOneAndUpdate(req, res)
+        User.findOneAndUpdate(
+            { _id: req.params.userId },
+            {$set: req.body},
+            {new: true}
+            )
             .then((user) => res.json(user))
             .catch((err) => res.status(500).json(err));
     },
@@ -38,7 +44,7 @@ module.exports = {
             .then((user) =>
                 !user
                     ? res.status(404).json({ message: 'No user with that ID' })
-                    : Thought.deleteMany({ _id: { $in: user.Thought } })
+                    : Thought.deleteMany({ _id: { $in: user.thoughts } })
             )
             .then(() => res.json({ message: 'User and associated apps deleted!' }))
             .catch((err) => res.status(500).json(err));
@@ -49,7 +55,7 @@ module.exports = {
 
         User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $addToSet: { friends: req, res } },
+            { $addToSet: { friends: req.params.friendId } },
             { new: true, runValidators: true }
 
         )
@@ -65,7 +71,7 @@ module.exports = {
     removeFriend(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $pull: { friends: req, res } },
+            { $pull: { friends: req.params.friendId } },
             { new: true }
         )
             .then((user) => {

@@ -4,7 +4,7 @@ const reactionSchema = new Schema(
     {
         //the reason why we need a reactionId here is because we need to be able to reference the reactionId in the thought model since it is not automatically created by mongoose like the thoughtId is considering that it is a subdocument
         reactionId: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             default: new Types.ObjectId(),
         },
         reactionBody: { 
@@ -19,7 +19,7 @@ const reactionSchema = new Schema(
         createdAt: {    
             type: Date,
             default: Date.now,
-            get: (timeOfCreation) => dateFormat(timeOfCreation),
+            // get: (timeOfCreation) => dateFormat(timeOfCreation),
         },
     },
     {
