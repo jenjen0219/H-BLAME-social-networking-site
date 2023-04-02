@@ -29,12 +29,12 @@ module.exports = {
         Thought.create(req.body)
             .then((thought) => {
                 return User.findOneAndUpdate(
-                    { _id: req.params.userId },
+                    { _id: req.body.userId },
                     //$push is an operator within MongoDB update query that allows you to add a new iten into an array without overwriting the existing array
-                    { $push: { thoughts: thought._id } },
+                    { $push: { thoughts: Thought._id } },
                     //this is passed onto the findOneAndUpdate method, which will return the updated document after the update has been applied
                     { new: true }
-                ).populate('thoughts');
+                );
             })
             .then((user) => {
                 if (!user) {
