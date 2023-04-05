@@ -1,8 +1,10 @@
 
-# CODING QUIZ
+# Hablame - The Social Network API
 
 ## Description
 This program is the beginning to what would become a full-scale social networking site that could manage a large number of users capable of making individual posts(thoughts), reactions to other users thoughts, and become friends among users. As of now it only consists of the code in creating the API necessary to carry out the previously mentioned criteria, there is no front end for a user to interact with at the moment. Instead, these functionalities are portrayed through the use of Insomnia and furhter down this description is a link to a video showcasing these processes. 
+
+Psssst...hablame is spanish for "talk to me!" 
 
 <br>
 <br>
