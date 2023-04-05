@@ -32,9 +32,9 @@ module.exports = {
     updateUser(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId },
-            {$set: req.body},
-            {new: true}
-            )
+            { $set: req.body },
+            { new: true }
+        )
             .then((user) => res.json(user))
             .catch((err) => res.status(500).json(err));
     },
@@ -63,8 +63,12 @@ module.exports = {
                 if (!user) {
                     res.status(404).json({ message: 'No user with that ID' });
                 }
+                res.json(user);
             })
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => {
+                console.log(err)
+                return res.status(500).json(err)
+            });
     },
 
     // Remove a friend

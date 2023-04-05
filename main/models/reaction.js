@@ -1,4 +1,11 @@
-const {Schema, Types} = require('mongoose');
+const { Schema, Types } = require('mongoose');
+
+function dateFormat(date) {
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+}
 
 const reactionSchema = new Schema(
     {
@@ -7,7 +14,7 @@ const reactionSchema = new Schema(
             type: Schema.Types.ObjectId,
             default: new Types.ObjectId(),
         },
-        reactionBody: { 
+        reactionBody: {
             type: String,
             required: true,
             maxLength: 280,
@@ -15,12 +22,15 @@ const reactionSchema = new Schema(
         username: {
             type: String,
             required: true,
-        },  
-        createdAt: {    
+        },
+        createdAt: {
             type: Date,
             default: Date.now,
-            // get: (timeOfCreation) => dateFormat(timeOfCreation),
-        },
+            //using a getter method to format the timestamp on query
+            // get: (createdAtVal) => dateFormat(createdAtVal),
+            get: timestamp => dateFormat(timestamp),
+
+        }
     },
     {
         toJSON: {
@@ -28,4 +38,5 @@ const reactionSchema = new Schema(
         },
     });
 
-    module.exports = reactionSchema;
+
+module.exports = reactionSchema;

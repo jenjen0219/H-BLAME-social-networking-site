@@ -2,6 +2,13 @@ const { Schema, model } = require('mongoose');
 //in order to align with the correct continuity of the code, the reactionSchema needs to be defined before the thoughtSchema
 const reactionSchema = require('./reaction');
 
+function dateFormat(date) {
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+}
+
 
 const thoughtSchema = new Schema(
     {
@@ -20,10 +27,12 @@ const thoughtSchema = new Schema(
             type: Date,
             default: Date.now,
             //using a getter method to format the timestamp on query
-            // get: (timeOfCreation) => dateFormat(timeOfCreation),
+            // get: (createdAtVal) => dateFormat(createdAtVal),
+            get: timestamp => dateFormat(timestamp),
+
         },
         //array of nested documents created with subdocument reactionSchema
-        reaction: [reactionSchema],
+        reactions: [reactionSchema],
     },
     {
         //we need to include virtual properties when converting data to JSON 
@@ -38,7 +47,7 @@ const thoughtSchema = new Schema(
 //so this is also considered a subdocument because it is nested within the thoughtSchema and it is also a virtual property because it is not stored in the database
 //defining a virtual property of the thought schema to calculate the amount of reactions a thought has
 thoughtSchema.virtual('reactionCount').get(function () {
-    return this.reaction.length;
+    return this.reactions.length;
 });
 
 //this is where we create a new mongoose model using the userSchema

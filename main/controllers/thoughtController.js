@@ -9,7 +9,11 @@ module.exports = {
     getAllThoughts(req, res) {
         Thought.find()
             .then((thoughts) => res.json(thoughts))
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => {
+                console.log(err)
+                return res.status(500).json(err)
+            });
+
     },
 
     // Get a single thought
@@ -23,15 +27,15 @@ module.exports = {
             )
             .catch((err) => res.status(500).json(err));
     },
-
-    // create a new thought and add it to the user's thoughts array field
+    //this is the method that will create a thought and add it to the user's thoughts array
     createThought(req, res) {
         Thought.create(req.body)
             .then((thought) => {
+                console.log(thought);
                 return User.findOneAndUpdate(
                     { _id: req.body.userId },
                     //$push is an operator within MongoDB update query that allows you to add a new iten into an array without overwriting the existing array
-                    { $push: { thoughts: Thought._id } },
+                    { $push: { thoughts: thought._id } },
                     //this is passed onto the findOneAndUpdate method, which will return the updated document after the update has been applied
                     { new: true }
                 );
@@ -42,7 +46,11 @@ module.exports = {
                 }
                 res.json(user);
             })
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => {
+                console.log(err)
+                return res.status(500).json(err)
+            });
+
 
 
     },
@@ -67,7 +75,9 @@ module.exports = {
 
     // Add a reaction to a thought
     addReaction(req, res) {
+        console.log(req.body);
         Thought.findOneAndUpdate(
+
             { _id: req.params.thoughtId },
             { $addToSet: { reactions: req.body } },
             { new: true, runValidators: true }
@@ -76,10 +86,14 @@ module.exports = {
                 if (!thought) {
                     res.status(404).json({ message: 'No thought with that ID' });
                 }
+                console.log(thought);
                 res.json(thought);
             }
             )
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => {
+                console.log(err);
+                res.status(500).json(err)
+            });
     },
 
     // Delete a reaction from a thought

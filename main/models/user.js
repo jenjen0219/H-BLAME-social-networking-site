@@ -2,7 +2,6 @@ const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema(
   {
-    // _id 
     //not mentioned in the parameters given in the homework but isn't is insinuated that an ObjectId is required for the user?
     //oh okay so mongoose actually has a built in method for creating an ObjectId so we don't need to include a userId property
     username: {
@@ -15,7 +14,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      match:  [/.+@.+\..+/, 'Please enter a valid e-mail address'],
+      match: [/.+@.+\..+/, 'Please enter a valid e-mail address'],
     },
     //this will be an array of the friends that the user has
     friends: [
@@ -42,6 +41,7 @@ const userSchema = new Schema(
     id: false
   }
 );
+
 
 
 //defining a virtual property of the user schema to calculate the amount of friends a user has
